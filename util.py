@@ -55,7 +55,8 @@ class Util:
 		f = open(filename, 'r')
 		
 		for line in f:
-			row_dict = {}
+			#row_dict = {}
+			row = []
 			splited = line.split(',')
 			if len(splited) > 28:
 				offset = len(splited) - 28
@@ -64,7 +65,7 @@ class Util:
 				
 			for i in range(len(self.feature_list)):
 				val = splited[i]
-				if self.feature_list[i] == movie_title:
+				if self.feature_list[i] == 'Movie Title':
 					for iter in range(offset):
 						val = ", ".join([val, splited[i+iter+1]])
 				elif i > 11:
@@ -72,9 +73,11 @@ class Util:
 					if i == (len(self.feature_list) - 1):
 						val = val.split('\r')[0]
 			
-				row_dict[self.feature_list[i]] = val
+				#row_dict[self.feature_list[i]] = val
+				row.append(val)
 		
-			self.file_data.append(row_dict)
+			#self.file_data.append(row_dict)
+			self.file_data.append(row)
 		temp = self.file_data.pop(0)
 		return self.file_data 
 
@@ -102,10 +105,10 @@ class Util:
 		ys = self.getColumn(feature2)
 		self.plot2D(xs, ys, str(feature1), str(feature2))
 	
-	def displayAllTrends(self):
-		allColumns = self.getAllColumns()
-		
-		for i in range(len(self.feature_list)):
-			for j in range(i+1, range(len(self.feature_list))):
-				self.displayTrend(self.feature_list(i), self.feature_list(j))
+	#def displayAllTrends(self):
+	#	allColumns = self.getAllColumns()
+	#	
+	#	for i in range(len(self.feature_list)):
+	#		for j in range(i+1, range(len(self.feature_list))):
+	#			self.displayTrend(self.feature_list(i), self.feature_list(j))
 		

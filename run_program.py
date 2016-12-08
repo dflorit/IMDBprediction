@@ -5,7 +5,7 @@ class Main:
 	def __init__(self):
 		self.u = Util()
 		self.dataFile = self.u.read_file('Data/movie_metadata.csv')
-		self.u.displayAllTrends()
+		#self.u.displayAllTrends()
 		print "ello"
 		
 
