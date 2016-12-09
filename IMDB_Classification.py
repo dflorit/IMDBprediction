@@ -84,6 +84,10 @@ def generate_plots():
 	plot_points(facebook_likes_vector, critics_reviews_vector, imdb_score_vector, facebook_likes_name, critics_reviews_name)
 		 	
 
+def test_get_directors():
+	headers, rows = read_file(imdb_table_path)
+	get_direcrors_numeric(rows)
+
 #test_reading_table()
 #test_get_Labels()
 #test_get_colors()
@@ -91,8 +95,8 @@ def generate_plots():
 #test_get_duration()
 #test_director_facebook_likes()
 #test_num_voted_users()
-
+test_get_directors()
 #print normalize([1,2,4])
 
 #get_movie_titles()
-generate_plots()
+#generate_plots()
