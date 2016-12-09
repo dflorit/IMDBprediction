@@ -336,7 +336,7 @@ def get_title_year(rows):
 def get_movie_facebook_likes(rows):
 	return get_int_column(rows, movie_facebook_likes)
 
-def get_direcrors_numeric(rows):
+def get_direcrors_dictionary(rows):
 	directors = {}
 	pos = 0
 	
@@ -350,11 +350,40 @@ def get_direcrors_numeric(rows):
 	
 	#fliping keys and values
 	
-	fliped_directors = {}
+	#fliped_directors = {}
 	
-	for director in directors:
-		fliped_directors[directors[director]] = director
+	#for director in directors:
+		#fliped_directors[directors[director]] = director
 	
-	print fliped_directors
-	 
+	#print fliped_directors
+	return directors
+
+def flip_dictionary(d):
+	fliped_d = {}
+	
+	for key in d:
+		fliped_d[d[key]] = key
+	
+	return fliped_d
+	#print fliped_directors
+
+def get_directors_vector(rows):
+	director_dict = get_direcrors_dictionary(rows)
+	director_vectors = []
+	
+	for row in rows:
+		director_vector = [0]*len(director_dict)
+		director = row[feature_name_to_number[director_name]]	 
+		director_vector[director_dict[director]] = 1
 		
+		director_vectors.append(director_vector)
+	
+	#generating list that maps each vector position to which director
+	f_d = flip_dictionary(director_dict)
+	d_pos = ['']*len(director_dict)
+	
+	for pos in f_d:
+		d_pos[pos] = f_d[pos]
+	
+	
+	return d_pos, director_vectors

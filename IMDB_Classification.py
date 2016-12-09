@@ -88,6 +88,12 @@ def test_get_directors():
 	headers, rows = read_file(imdb_table_path)
 	get_direcrors_numeric(rows)
 
+
+def test_get_deirector_vector():
+	headers, rows = read_file(imdb_table_path)
+	director_names, director_vectors = get_directors_vector(rows)
+	print director_names
+	print director_vectors
 #test_reading_table()
 #test_get_Labels()
 #test_get_colors()
@@ -95,7 +101,8 @@ def test_get_directors():
 #test_get_duration()
 #test_director_facebook_likes()
 #test_num_voted_users()
-test_get_directors()
+#test_get_directors()
+test_get_deirector_vector()
 #print normalize([1,2,4])
 
 #get_movie_titles()
