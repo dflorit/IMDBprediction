@@ -304,7 +304,7 @@ def get_int_column(rows, column_name):
 		if output[i] == '':
 			output[i] = avg
 	
-	return column_name, output
+	return column_name, normalize(output)
 
 def get_num_critic_for_reviews(rows):
 	return get_int_column(rows, num_critic_for_reviews)
