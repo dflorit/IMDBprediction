@@ -1,4 +1,5 @@
 from random import *
+from numpy import *
 
 class Data:
 	def __init__(self):
@@ -82,7 +83,7 @@ class Statistics:
 		self.length = data.get_length()
 		self.posible_labels = posible_labels
 		self.calculate_confusion_matrix()
-		self.calculate_accuracy()
+		self.get_metrics()
 	
 	def calculate_confusion_matrix(self):
 		self.confusion_matrix = {}
@@ -91,24 +92,49 @@ class Statistics:
 			for predictions in self.posible_labels:
 				self.confusion_matrix[(labels, predictions)] = 0.0
 		
-		for i in range(len(self.labels)):
+		for i in range(self.length):
 			self.confusion_matrix[(self.labels[i], self.predictions[i])] += 1.0
-	
-	def calculate_accuracy(self):
-		total = 0
-		self.accuracy = 0
-		for (label, prediction) in self.confusion_matrix:
-			total += self.confusion_matrix[(label, prediction)]
-			if label == prediction:
-				self.accuracy += self.confusion_matrix[(label, prediction)]
 		
-		if total == 0:
-			total = 0.00001
-		self.accuracy = 1.0* self.accuracy / total
+	
+	def get_metrics(self):
+		
+		accuracy = 0
+		TP = zeros(10)
+		TN = zeros(10)
+		FP = zeros(10)
+		FN = zeros(10)
+		precision = zeros(10)
+		sensitivity = zeros(10)
+		specificity = zeros(10)
+		
+		for i in range(self.length): #possible classes Ground Truth 
+			TP[i] = self.confusion_matrix[(i+1,i+1)]
+			TN[i] = sum([self.confusion_matrix[x,y] for x in range(1,self.length+1) for y in range(1,self.length+1) if x != (i+1) if y != (i+1)])
+			FP[i] = sum([self.confusion_matrix[x,y] for x in range(1,self.length+1) for y in range(1,self.length+1) if x != (i+1) if y == (i+1)])
+			FN[i] = sum([self.confusion_matrix[x,y] for x in range(1,self.length+1) for y in range(1,self.length+1) if x == (i+1) if y != (i+1)])
+			
+			#to avoid dividing by zero:
+			if TP[i] == 0: TP[i] = 0.0001
+			if TN[i] == 0: TN[i] = 0.0001
+			if FP[i] == 0: FP[i] = 0.0001
+			if FN[i] == 0: FN[i] = 0.0001
+			
+			#calculating precision, specificity and sensitivity for each class:
+			precision[i] = 1.0*TP[i] / (1.0*(TP[i] + FP[i]))
+			sensitivity[i] = 1.0*TP[i] / (1.0*(TP[i] + FN[i]))
+			specificity[i] = 1.0*TN[i] / (1.0*(TN[i] + FP[i]))
+		
+		
+		#Metrics
+		self.accuracy = 1.0 * (sum(TP) + sum(TP)) / (sum(TP) + sum(TP) + sum(FP) + sum(FN))
+		self.averagePrecision = 1.0*sum(precision) / self.length
+		self.averageSensitivity = 1.0*sum(sensitivity) / self.length
+		self.averageSpecificity = 1.0*sum(specificity) / self.length
 		
 	
 	def get_statistics(self):
-		return {'Accuracy': self.accuracy}
+		return {'Accuracy': self.accuracy, 'Average Precision': self.averagePrecision, 'Average Sensitivity': self.averageSensitivity, \
+		'Average Specificity': self.averageSpecificity}
 
 	
 # ---------------------------Useful functions related to Data ---------------------------
