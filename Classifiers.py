@@ -2,6 +2,7 @@ import warnings
 from Data import Data
 from sklearn import *
 from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import RandomForestClassifier
 from Utils import *
 from theano import *
 import theano.tensor as T
@@ -32,9 +33,6 @@ class Classifier(object):
 	#returns testing_data with set predictions!!
 	def predict(self): raise NotImplementedError('Override me')
 	
-	#TODO: predict(feature_vector) where feature_vector was not in testing_data
-
-
 #-------------------------Implement Classifiers-----------------------------------
 
 #SVM implementation using svm.SVC()
@@ -163,7 +161,23 @@ class NN_Classifier(Classifier):
 	def set_parameters(self):
 		self.clf.set_params(**self.params)
 
+#Random forest implementation using 
+class RF_Classifier(Classifier):
+	def __init__(self):
+		super(RF_Classifier, self).__init__()
+		self.clf = RandomForestClassifier()
 
+	def train(self):
+		feature_vectors_training = self.training_data.get_feature_vectors()
+		labels_training = self.training_data.get_labels()
+		self.clf.fit(feature_vectors_training, labels_training)
+	
+	def predict(self):
+		feature_vectors_testing = self.testing_data.get_feature_vectors()
+		predictions = self.clf.predict(feature_vectors_testing)
+		self.testing_data.set_predictions(predictions)
+		return predictions
+		
 #Logistic Regression
 class LR_Classifier(Classifier):
 	def __init__(self):
@@ -315,7 +329,6 @@ class LR_Classifier(Classifier):
 		
 	def set_alpha(self, alpha):
 		self.alpha = alpha
-	
 
 def find_mode(l):
 	count = {}
@@ -335,29 +348,39 @@ def find_mode(l):
 	return mode
 
 def get_mode(training_data, testing_data):
+	print "classifying with SVM"
 	classifier_svm = SVC_Classifier()
 	classifier_svm.set_training_data(training_data)
 	classifier_svm.set_testing_data(testing_data)
 	classifier_svm.train()
 	predictions_svm = classifier_svm.predict()
 	
+	print "classifying with NN"
 	classifier_nn = NN_Classifier()
 	classifier_nn.set_training_data(training_data)
 	classifier_nn.set_testing_data(testing_data)
 	classifier_nn.train()
 	predictions_nn = classifier_nn.predict()
 	
-	classifier_lr = LR_Classifier()
-	classifier_lr.set_training_data(training_data)
-	classifier_lr.set_testing_data(testing_data)
-	classifier_lr.train()
-	predictions_lr = classifier_lr.predict()
+	print "classifying with RF"
+	classifier_rf = RF_Classifier()
+	classifier_rf.set_training_data(training_data)
+	classifier_rf.set_testing_data(testing_data)
+	classifier_rf.train()
+	predictions_rf = classifier_rf.predict()
 	
+	#print "classifying with LR"
+	#classifier_lr = LR_Classifier()
+	#classifier_lr.set_training_data(training_data)
+	#classifier_lr.set_testing_data(testing_data)
+	#classifier_lr.train()
+	#predictions_lr = classifier_lr.predict()
 	
 	predictions = []
 	
-	for i in range(len(predictions_lr)):
-		predictions.append(find_mode([predictions_lr[i], predictions_nn[i], predictions_svm[i]]))
+	for i in range(len(predictions_nn)):
+		predictions.append(find_mode([predictions_nn[i], predictions_svm[i], predictions_rf[i]]))
+		#predictions.append(find_mode([predictions_lr[i], predictions_nn[i], predictions_svm[i], predictions_rf[i]]))
 	return predictions
 	
 		
