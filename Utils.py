@@ -171,6 +171,13 @@ def plot_points(xs, ys, labels, filename=None):
 	else:
 		plt.savefig(filename+'png')
 
+
+def plot2D(xs, ys, labelX, labelY):
+	plt.plot(xs, ys, 'ro')
+	plt.xlabel(labelX)
+	plt.ylabel(labelY)
+	plt.title(labelX + ' vs. ' + labelY)
+	plt.show()
 #Helloooooooooooooooooooooooooooooooooooooo
 
 #---------------------------------Managing Files tools--------------------------------
