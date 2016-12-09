@@ -63,7 +63,26 @@ def test_num_voted_users():
 	
 def get_movie_titles():
 	headers, rows = read_file(imdb_table_path)
-	print get_movie_title(rows) 	
+	print get_movie_title(rows)
+
+def generate_plots():
+	headers, rows = read_file(imdb_table_path)
+	
+	imdb_score_vector = get_imdb_score(rows)
+	
+	colors_name, colors_vector = get_colors(rows)
+	critics_reviews_name, critics_reviews_vector = get_num_critic_for_reviews(rows)
+	facebook_likes_name, facebook_likes_vector = get_cast_total_facebook_likes(rows)
+	budget_name, budget_vector = get_budget(rows)
+	
+	
+	#plot2D(colors_vector, imdb_score_vector, colors_name, imdb_score)
+	#plot2D(critics_reviews_vector, imdb_score_vector, critics_reviews_name, imdb_score)
+	#plot2D(facebook_likes_vector, imdb_score_vector, facebook_likes_name, imdb_score)
+	#plot2D(budget_vector, imdb_score_vector, budget_name, imdb_score)
+	#plot_points(facebook_likes_vector, budget_vector, imdb_score_vector, facebook_likes_name, budget_name)
+	plot_points(facebook_likes_vector, critics_reviews_vector, imdb_score_vector, facebook_likes_name, critics_reviews_name)
+		 	
 
 #test_reading_table()
 #test_get_Labels()
@@ -75,4 +94,5 @@ def get_movie_titles():
 
 #print normalize([1,2,4])
 
-get_movie_titles()
+#get_movie_titles()
+generate_plots()

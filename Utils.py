@@ -1,5 +1,6 @@
 from numpy import *
 from math import *
+import matplotlib.pyplot as plt
 
 #------------------------------Variables---------------------------------------
 imdb_table_path = 'Data/movie_metadata.csv'
@@ -158,14 +159,32 @@ def gradient_descent(xs, ys, h, alpha, iterations, lamda):
 	return thetas
 	
 #------------------------------------Ploting Tools----------------------------------
-def plot_points(xs, ys, labels, filename=None):
-	
-	
+def plot_points(xs, ys, labels, labelX, labelY, filename=None):
+	dx = {}
+	dy = {}
 	for i in range(len(xs)):
-		plt.scatter(xs[i],ys[i], c=colors[labels[i]], label=labels[i])
+		key = (labels[i], colors[labels[i]])
+		if key in dx:
+			dx[key] = dx[key] + [xs[i]]
+			dy[key] = dy[key] + [ys[i]]
+		else:
+			dx[key] = [xs[i]]
+			dy[key] = [ys[i]]
+	
+	for key in dx:
+		plt.scatter(dx[key], dy[key], c=key[1], label=key[0]) 
+			
+	
+	#for i in range(len(xs)):
+		#plt.scatter(xs[i],ys[i], c=colors[labels[i]], label=labels[i])
+	
 	
 	plt.legend()
 	plt.grid(True)
+	plt.xlabel(labelX)
+	plt.ylabel(labelY)
+	plt.title(labelX + ' vs. ' + labelY)
+	
 	if filename == None:
 		plt.show()
 	else:
@@ -178,7 +197,6 @@ def plot2D(xs, ys, labelX, labelY):
 	plt.ylabel(labelY)
 	plt.title(labelX + ' vs. ' + labelY)
 	plt.show()
-#Helloooooooooooooooooooooooooooooooooooooo
 
 #---------------------------------Managing Files tools--------------------------------
 #table_path is the path to the excel_table
