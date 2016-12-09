@@ -54,6 +54,11 @@ feature_name_to_number = {color:0, director_name:1, num_critic_for_reviews:2, du
 						movie_facebook_likes:27}
 
 
+#posible labels
+posible_labels = [x for x in range(1,11)]
+
+colors_to_numbers = {' Black and White':0, 'Color':1, '':2}
+
 #------------------------------Math Tools---------------------------------------
 #precondition: The 2 vectors have the same dimensions
 #This function calculates the dot product of vectors v1 and v2. The same index on v1 and
@@ -220,3 +225,16 @@ def read_file(filename):
 			file_data.append(row)
 		headers = file_data.pop(0)
 		return headers, file_data
+
+def get_labels(rows):
+	labels = []
+	rating_index = feature_name_to_number[imdb_score]
+	for row in rows:
+		labels.append(int(round(float(row[rating_index]))))
+	return labels
+		
+def get_colors(rows):
+	colors = []
+	for row in rows:
+		colors.append(colors_to_numbers[row[feature_name_to_number[color]]])
+	return colors		

@@ -33,32 +33,24 @@ def testing_prediction():
 
 def test_reading_table():
 	headers, rows = read_file(imdb_table_path)
-	#print rows[0]
-	
-	#print len(feature_list)
-	#print len(feature_name_to_number)
-	#print feature_name_to_number
-	
-	
-	d = {}
-	for e in feature_list:
-		if e not in d:
-			d[e] = 1
-		else:
-			d[e] += 1
-	
-	for e in d:
-		if d[e] > 1:
-			print e
 	#print headers
-	#print rows[3]
-	#print len(rows[3])
-	'''
-	print '------------------------------------------------'
-	for row in rows:
-		for e in row:
-			if e == '':
-				print row
-				print e
-	'''
-test_reading_table()
+	#print rows[0]
+	for i in range(len(rows)):
+		if rows[i][0] == '':
+			print i
+			#print row
+
+
+def test_get_Labels():
+	headers, rows = read_file(imdb_table_path)
+	print get_labels(rows)
+
+
+def test_get_colors():
+	headers, rows = read_file(imdb_table_path)
+	print get_colors(rows)
+	
+#test_reading_table()
+#test_get_Labels()
+test_get_colors()
+
