@@ -1,5 +1,6 @@
 from Classifiers import *
 from Data import *
+from FeatureExtractors import *
 
 
 def testing_prediction():
@@ -73,6 +74,31 @@ def get_movie_titles():
 	headers, rows = read_file(imdb_table_path)
 	print get_movie_title(rows) 	
 
+def testing_feature_extractor():
+	FE = Feature_Extractors()
+	D = FE.numeric_feature_extractor(imdb_table_path)
+	print D
+
+def testing_program_structure():
+	FE = Feature_Extractors()
+	D = FE.numeric_feature_extractor(imdb_table_path)
+	D_training, D_testing = split_data(D, 0.80)
+	
+	predictions = get_mode(D_training, D_testing)
+	D_testing.set_predictions(predictions)
+	
+	#classifier = LR_Classifier()
+	#classifier.set_training_data(D_training)
+	#classifier.set_testing_data(D_testing)
+	#classifier.train()
+	#predictions = classifier.predict()
+	#D_testing.set_predictions(predictions)
+	
+	S = Statistics(D_testing, posible_labels)
+	print S.get_statistics()
+
+	#print get_mode(training_data, testing_data)
+	
 #test_reading_table()
 #test_get_Labels()
 #test_get_colors()
@@ -84,4 +110,7 @@ def get_movie_titles():
 #print normalize([1,2,4])
 
 #get_movie_titles()
-testing_prediction()
+#testing_prediction()
+#testing_feature_extractor()
+testing_program_structure()
+

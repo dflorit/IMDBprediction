@@ -55,7 +55,6 @@ class Data:
 	
 	#feature names = [feature_1_name_str, feature_2_name_str, ...]	
 	def set_feature_names(self, feature_names):
-		self.length = len(feature_names)
 		self.feature_names = feature_names
 	
 	def get_feature_names(self):
@@ -80,7 +79,7 @@ class Statistics:
 	def __init__(self, data, posible_labels):
 		self.labels = data.get_labels()
 		self.predictions = data.get_predictions()
-		self.length = data.get_length()
+		self.length = len(posible_labels)
 		self.posible_labels = posible_labels
 		self.calculate_confusion_matrix()
 		self.get_metrics()
@@ -99,19 +98,19 @@ class Statistics:
 	def get_metrics(self):
 		
 		accuracy = 0
-		TP = zeros(10)
-		TN = zeros(10)
-		FP = zeros(10)
-		FN = zeros(10)
-		precision = zeros(10)
-		sensitivity = zeros(10)
-		specificity = zeros(10)
+		TP = array([0.0001] + [0]*10)
+		TN = array([0.0001] + [0]*10)
+		FP = array([0.0001] + [0]*10)
+		FN = array([0.0001] + [0]*10)
+		precision = array([0.0001] + [0]*10)
+		sensitivity = array([0.0001] + [0]*10)
+		specificity = array([0.0001] + [0]*10)
 		
-		for i in range(self.length): #possible classes Ground Truth 
-			TP[i] = self.confusion_matrix[(i+1,i+1)]
-			TN[i] = sum([self.confusion_matrix[x,y] for x in range(1,self.length+1) for y in range(1,self.length+1) if x != (i+1) if y != (i+1)])
-			FP[i] = sum([self.confusion_matrix[x,y] for x in range(1,self.length+1) for y in range(1,self.length+1) if x != (i+1) if y == (i+1)])
-			FN[i] = sum([self.confusion_matrix[x,y] for x in range(1,self.length+1) for y in range(1,self.length+1) if x == (i+1) if y != (i+1)])
+		for i in self.posible_labels: #possible classes Ground Truth 
+			TP[i] = self.confusion_matrix[(i,i)]
+			TN[i] = sum([self.confusion_matrix[x,y] for x in self.posible_labels for y in self.posible_labels if x != i if y != i])
+			FP[i] = sum([self.confusion_matrix[x,y] for x in self.posible_labels for y in self.posible_labels if x != i if y == i])
+			FN[i] = sum([self.confusion_matrix[x,y] for x in self.posible_labels for y in self.posible_labels if x == i if y != i])
 			
 			#to avoid dividing by zero:
 			if TP[i] == 0: TP[i] = 0.0001
@@ -174,26 +173,23 @@ def split_data(data, percentage_training):
 	table_ids_training = [table_ids[i] for i in range(length_data) if i <= length_training_data if table_ids != []]
 	table_ids_testing = [table_ids[i] for i in range(length_data) if i > length_training_data if table_ids != []]
 	
-	
 	feature_names_training = feature_names
 	feature_names_testing = feature_names
 	
+	data_training.set_feature_vectors(array(feature_vectors_training))
+	data_training.set_labels(array(labels_training))
+	data_training.set_predictions(array(predictions_training))
+	data_training.set_feature_names(array(feature_names_training))
+	data_training.set_table_ids(array(table_ids_training))
 	
-	data_training.set_feature_vectors(feature_vectors_training)
-	data_training.set_labels(labels_training)
-	data_training.set_predictions(predictions_training)
-	data_training.set_feature_names(feature_names_training)
-	data_training.set_table_ids(table_ids_training)
-	
-	data_testing.set_feature_vectors(feature_vectors_testing)
-	data_testing.set_labels(labels_testing)
-	data_testing.set_predictions(predictions_testing)
-	data_testing.set_feature_names(feature_names_testing)
-	data_testing.set_table_ids(table_ids_testing)
+	data_testing.set_feature_vectors(array(feature_vectors_testing))
+	data_testing.set_labels(array(labels_testing))
+	data_testing.set_predictions(array(predictions_testing))
+	data_testing.set_feature_names(array(feature_names_testing))
+	data_testing.set_table_ids(array(table_ids_testing))
 	
 
 	return data_training, data_testing
-
 
 def split_data_by_labels(data):
 	length_data = data.get_length()
