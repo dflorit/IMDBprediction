@@ -1,15 +1,23 @@
 from Classifiers import *
+from Data import *
 
 
 def testing_prediction():
 	#xs = array([[20,20],[10,10],[30,20],[10,20],[12,13],[50,50]])
 	#ys = array([0,0,1,1,1,3])
 	xs = array([[0,0],[1,1],[3,2],[21,20],[23,25],[50,50],[51,52],[-1,-2],[-3,-4],[-5,-6]])
-	ys = array([0,0,0,1,1,2,2,3,3,3])
+	ys = array([4,4,4,1,1,2,2,3,3,3])
 
 	training_data = Data()
 	training_data.set_feature_vectors(xs)
 	training_data.set_labels(ys)
+	
+	predictions = array([4,4,2,1,1,2,2,1,3,3])
+	training_data.set_predictions(predictions)
+	
+	S = Statistics(training_data, posible_labels)
+	print S.get_statistics()
+	
 
 	predict = array([[1,0], [2,1], [22,22], [52,52], [52,53], [53,53], [-1,-1],[-2,-2]])
 	#expected_predictions = array([0,1])
@@ -24,7 +32,7 @@ def testing_prediction():
 	#classifier.train()
 	#print classifier.predict()
 
-	print get_mode(training_data, testing_data)
+	#print get_mode(training_data, testing_data)
 	
 
 def test_reading_table():
@@ -75,4 +83,5 @@ def get_movie_titles():
 
 #print normalize([1,2,4])
 
-get_movie_titles()
+#get_movie_titles()
+testing_prediction()
