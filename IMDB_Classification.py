@@ -52,9 +52,31 @@ def test_get_colors():
 
 def test_num_critic_for_reviews():
 	headers, rows = read_file(imdb_table_path)
-	print get_num_critic_for_reviews(rows)	
+	print get_num_critic_for_reviews(rows)
+
+def test_get_duration():
+	headers, rows = read_file(imdb_table_path)
+	print get_duration(rows)
+
+def test_director_facebook_likes():
+	headers, rows = read_file(imdb_table_path)
+	print get_director_facebook_likes(rows)
+
+def test_num_voted_users():
+	headers, rows = read_file(imdb_table_path)
+	print get_num_voted_users(rows)
+	
+def get_movie_titils():
+	headers, rows = read_file(imdb_table_path)
+	print get_movie_title(rows) 	
 #test_reading_table()
 #test_get_Labels()
 #test_get_colors()
-test_num_critic_for_reviews()
+#test_num_critic_for_reviews()
+#test_get_duration()
+#test_director_facebook_likes()
+#test_num_voted_users()
 
+#print normalize([1,2,4])
+
+get_movie_titils()

@@ -60,6 +60,12 @@ posible_labels = [x for x in range(1,11)]
 colors_to_numbers = {' Black and White':0, 'Color':1, '':2}
 
 #------------------------------Math Tools---------------------------------------
+
+def normalize(l):
+	m = 1.0*max(l)
+	return list(array(l)/m)
+	
+
 #precondition: The 2 vectors have the same dimensions
 #This function calculates the dot product of vectors v1 and v2. The same index on v1 and
 #v2 represents the same dimension
@@ -226,7 +232,7 @@ def read_file(filename):
 		headers = file_data.pop(0)
 		return headers, file_data
 
-def get_labels(rows):
+def get_imdb_score(rows):
 	labels = []
 	rating_index = feature_name_to_number[imdb_score]
 	for row in rows:
@@ -239,23 +245,61 @@ def get_colors(rows):
 		colors.append(colors_to_numbers[row[feature_name_to_number[color]]])
 	return color, colors
 
-def get_num_critic_for_reviews(rows):
-	critic_for_reviews = []
-	critic_for_reviews_ne = []
+def get_movie_title(rows):
+	ids = []
 	
 	for row in rows:
-		strg = row[feature_name_to_number[num_critic_for_reviews]]
+		ids.append(row[feature_name_to_number[movie_title]])
+	
+	return ids
+
+	
+def get_int_column(rows, column_name):
+	output = []
+	output_ne = []
+	
+	for row in rows:
+		strg = row[feature_name_to_number[column_name]]
 		if strg == '':
-			critic_for_reviews.append(strg)
+			output.append(strg)
 		else:
-			critic_for_reviews.append(int(strg))
-			critic_for_reviews_ne.append(int(strg))
+			output.append(int(strg))
+			output_ne.append(int(strg))
 	
-	avg = sum(critic_for_reviews_ne)/len(critic_for_reviews_ne)
+	avg = sum(output_ne)/len(output_ne)
 	
-	for i in range(len(critic_for_reviews)):
-		if critic_for_reviews[i] == '':
-			critic_for_reviews[i] = avg
+	for i in range(len(output)):
+		if output[i] == '':
+			output[i] = avg
 	
-	return num_critic_for_reviews, critic_for_reviews
-			
+	return column_name, output
+
+def get_num_critic_for_reviews(rows):
+	return get_int_column(rows, num_critic_for_reviews)
+
+def get_duration(rows):
+	return get_int_column(rows, duration)
+
+def get_director_facebook_likes(rows):
+	return get_int_column(rows, director_facebook_likes)
+	
+def get_num_voted_users(rows):
+	return get_int_column(rows, num_voted_users)
+
+def get_cast_total_facebook_likes(rows):
+	return get_int_column(rows, cast_total_facebook_likes)
+
+def get_facenumber_in_poster(rows):
+	return get_int_column(rows, facenumber_in_poster)
+
+def get_num_user_for_reviews(rows):
+	return get_int_column(rows, num_user_for_reviews)
+
+def get_budget(rows):
+	return get_int_column(rows, budget)
+	
+def get_title_year(rows):
+	return get_int_column(rows, title_year)
+
+def get_movie_facebook_likes(rows):
+	return get_int_column(rows, movie_facebook_likes)
