@@ -8,6 +8,7 @@ class Data:
 		self.predictions = []
 		self.feature_names = []
 		self.numeric_labels = []
+		self.table_ids = []
 	
 	#feature_vectors = [phi(I1), phi(I2),...,phi(In)]
 	def set_feature_vectors(self, feature_vectors):
@@ -25,7 +26,14 @@ class Data:
 	
 	def get_labels(self):
 		return self.labels
-		
+	
+	#ids from table. this would be the movie title
+	def set_table_ids(self, table_ids):
+		self.length = len(table_ids)
+		self.table_ids = table_ids
+	
+	def get_table_ids(self):
+		return self.table_ids
 	
 	#numeric_labels = [l1,l2,...,ln]
 	def set_numeric_labels(self, numeric_labels):
@@ -58,6 +66,7 @@ class Data:
 	def __str__(self):
 		string = ''
 		string += 'length: ' + str(self.length) + '\n \n'
+		string += 'table_ids: ' + str(self.table_ids) + '\n \n'
 		string += 'feature_names: ' + str(self.feature_names) + '\n \n'
 		string += 'feature_vectors: ' + str(self.feature_vectors) + '\n \n'
 		string += 'labels: ' + str(self.labels) + '\n \n'
@@ -65,24 +74,21 @@ class Data:
 		
 		return string
 
-
-
-
 class Statistics:
 
-	def __init__(self, data, label_to_number):
+	def __init__(self, data, posible_labels):
 		self.labels = data.get_labels()
 		self.predictions = data.get_predictions()
 		self.length = data.get_length()
-		self.label_to_number = label_to_number
+		self.posible_labels = posible_labels
 		self.calculate_confusion_matrix()
 		self.calculate_accuracy()
 	
 	def calculate_confusion_matrix(self):
 		self.confusion_matrix = {}
 		
-		for labels in self.label_to_number:
-			for predictions in self.label_to_number:
+		for labels in self.posible_labels:
+			for predictions in self.posible_labels:
 				self.confusion_matrix[(labels, predictions)] = 0.0
 		
 		for i in range(len(self.labels)):
@@ -127,7 +133,7 @@ def split_data(data, percentage_training):
 	feature_vectors = [data.get_feature_vectors()[i] for i in shuffled_indices if len(data.get_feature_vectors()) != 0]
 	labels = [data.get_labels()[i] for i in shuffled_indices if len(data.get_labels()) != 0]
 	predictions = [data.get_predictions()[i] for i in shuffled_indices if len(data.get_predictions()) != 0]
-	
+	table_ids = [data.get_table_ids()[i] for i in shuffled_indices if len(data.get_table_ids()) != 0]
 	
 	#splitting variable content
 	feature_vectors_training = [feature_vectors[i] for i in range(length_data) if i <= length_training_data if feature_vectors != []]
@@ -139,6 +145,9 @@ def split_data(data, percentage_training):
 	predictions_training = [predictions[i] for i in range(length_data) if i <= length_training_data if predictions != []]
 	predictions_testing = [predictions[i] for i in range(length_data) if i > length_training_data if predictions != []]
 	
+	table_ids_training = [table_ids[i] for i in range(length_data) if i <= length_training_data if table_ids != []]
+	table_ids_testing = [table_ids[i] for i in range(length_data) if i > length_training_data if table_ids != []]
+	
 	
 	feature_names_training = feature_names
 	feature_names_testing = feature_names
@@ -148,11 +157,13 @@ def split_data(data, percentage_training):
 	data_training.set_labels(labels_training)
 	data_training.set_predictions(predictions_training)
 	data_training.set_feature_names(feature_names_training)
+	data_training.set_table_ids(table_ids_training)
 	
 	data_testing.set_feature_vectors(feature_vectors_testing)
 	data_testing.set_labels(labels_testing)
 	data_testing.set_predictions(predictions_testing)
 	data_testing.set_feature_names(feature_names_testing)
+	data_testing.set_table_ids(table_ids_testing)
 	
 
 	return data_training, data_testing
