@@ -387,3 +387,40 @@ def get_directors_vector(rows):
 	
 	
 	return d_pos, director_vectors
+	
+def get_actors_dictionary(rows):
+	actors = {}
+	pos = 0
+	
+	for row in rows:
+		all_actors = [row[feature_name_to_number[actor_1_name]], row[feature_name_to_number[actor_2_name]], row[feature_name_to_number[actor_3_name]]]
+		
+		for actor in all_actors:
+			if actor != '' and actor not in actors:
+				actors[actor] = pos
+				pos+=1
+	return actors	
+		
+		
+def get_actors_vector(rows):
+	actors_to_positions = get_actors_dictionary(rows)
+	actors_vectors = []
+	
+	for row in rows:
+		actors_vector = [0]*len(actors_to_positions)
+		all_actors = [row[feature_name_to_number[actor_1_name]], row[feature_name_to_number[actor_2_name]], row[feature_name_to_number[actor_3_name]]]
+		
+		for actor in all_actors:
+			if actor != '':
+				actors_vector[actors_to_positions[actor]] = 1
+		
+		actors_vectors.append(actors_vector)
+	
+	flipped_dict = flip_dictionary(actors_to_positions)
+	actor_names = ['']*len(actors_to_positions)
+	for pos in flipped_dict:
+		actor_names[pos] = flipped_dict[pos]
+		
+		
+		
+	return actor_names, actors_vectors
