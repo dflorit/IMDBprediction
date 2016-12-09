@@ -237,4 +237,25 @@ def get_colors(rows):
 	colors = []
 	for row in rows:
 		colors.append(colors_to_numbers[row[feature_name_to_number[color]]])
-	return colors		
+	return color, colors
+
+def get_num_critic_for_reviews(rows):
+	critic_for_reviews = []
+	critic_for_reviews_ne = []
+	
+	for row in rows:
+		strg = row[feature_name_to_number[num_critic_for_reviews]]
+		if strg == '':
+			critic_for_reviews.append(strg)
+		else:
+			critic_for_reviews.append(int(strg))
+			critic_for_reviews_ne.append(int(strg))
+	
+	avg = sum(critic_for_reviews_ne)/len(critic_for_reviews_ne)
+	
+	for i in range(len(critic_for_reviews)):
+		if critic_for_reviews[i] == '':
+			critic_for_reviews[i] = avg
+	
+	return num_critic_for_reviews, critic_for_reviews
+			

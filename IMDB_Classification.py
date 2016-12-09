@@ -49,8 +49,12 @@ def test_get_Labels():
 def test_get_colors():
 	headers, rows = read_file(imdb_table_path)
 	print get_colors(rows)
-	
+
+def test_num_critic_for_reviews():
+	headers, rows = read_file(imdb_table_path)
+	print get_num_critic_for_reviews(rows)	
 #test_reading_table()
 #test_get_Labels()
-test_get_colors()
+#test_get_colors()
+test_num_critic_for_reviews()
 
