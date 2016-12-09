@@ -424,3 +424,55 @@ def get_actors_vector(rows):
 		
 		
 	return actor_names, actors_vectors
+
+#--------------------------------
+def generate_dictionary(rows, key):
+	d = {}
+	pos = 0
+	
+	for row in rows:
+		string = row[feature_name_to_number[key]]
+		splited_str = string.split('|')
+		
+		for string in splited_str:
+			if string != '' and string not in d:
+				d[string] = pos
+				pos += 1
+		
+	return d
+
+def get_vectors(rows, key):
+	dictionary = generate_dictionary(rows, key)
+	
+	
+	vectors = []
+	
+	for row in rows:
+		vector = [0]*len(dictionary)
+		#all_actors = [row[feature_name_to_number[actor_1_name]], row[feature_name_to_number[actor_2_name]], row[feature_name_to_number[actor_3_name]]]
+		all_elements = row[feature_name_to_number[key]].split('|')
+		
+		
+		for element in all_elements:
+			if element != '':
+				vector[dictionary[element]] = 1
+		
+		vectors.append(vector)
+	
+	
+	#Modify
+	flipped_dict = flip_dictionary(dictionary)
+	names = ['']*len(dictionary)
+	for pos in flipped_dict:
+		names[pos] = flipped_dict[pos]
+			
+	return names, vectors
+	
+
+def get_genera_vectors(rows):
+	key = genres
+	return get_vectors(rows, key)
+
+def get_key_word_vectors(rows):
+	key = plot_keywords
+	return get_vectors(rows, key)

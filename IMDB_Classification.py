@@ -99,6 +99,18 @@ def test_get_actors_vectors():
 	headers, rows = read_file(imdb_table_path)
 	names, vectors = get_actors_vector(rows)
 	print names
+
+def test_get_vectors():
+	headers, rows = read_file(imdb_table_path)
+	names, vectors = get_genera_vectors(rows)
+	print names
+	print vectors
+
+def test_key_words():
+	headers, rows = read_file(imdb_table_path)
+	names, vectors = get_key_word_vectors(rows)
+	print names
+	print vectors
 #test_reading_table()
 #test_get_Labels()
 #test_get_colors()
@@ -112,4 +124,7 @@ def test_get_actors_vectors():
 
 #get_movie_titles()
 #generate_plots()
-test_get_actors_vectors()
+#test_get_actors_vectors()
+#test_get_vectors()
+#['Action', 'Adventure', 'Fantasy', 'Sci-Fi', 'Thriller', 'Documentary', 'Romance', 'Drama', 'History', 'Family', 'Animation', 'Comedy', 'Sport', 'Crime', 'Horror', 'Mystery', 'War', 'Musical', 'Western', 'Biography', 'Music', 'Game-Show', 'Reality-TV', 'News', 'Short', 'Film-Noir']
+test_key_words()
