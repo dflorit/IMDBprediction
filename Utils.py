@@ -57,7 +57,11 @@ feature_name_to_number = {color:0, director_name:1, num_critic_for_reviews:2, du
 #posible labels
 posible_labels = [x for x in range(1,11)]
 
+#This is the color on the table
 colors_to_numbers = {' Black and White':0, 'Color':1, '':2}
+
+#This is for the purpose of plotting
+colors = {1:'black', 2:'lightcoral', 3:'maroon', 4:'orangered', 5:'saddlebrown', 7:'purple', 8:'navy', 9:'skyblue', 6:'green', 10:'yellow'}
 
 #------------------------------Math Tools---------------------------------------
 
