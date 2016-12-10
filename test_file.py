@@ -26,16 +26,15 @@ def testing_prediction():
 	testing_data = Data()
 	testing_data.set_feature_vectors(predict)
 
-	#classifier = SVC_Classifier()
-	#classifier.set_training_data(training_data)
-	#classifier.set_testing_data(testing_data)
+	classifier = SVC_Classifier()
+	classifier.set_training_data(training_data)
+	classifier.set_testing_data(testing_data)
 
-	#classifier.train()
-	#print classifier.predict()
+	classifier.train()
+	print classifier.predict()
 
-	#print get_mode(training_data, testing_data)
+	print get_mode(training_data, testing_data)
 	
-
 def test_reading_table():
 	headers, rows = read_file(imdb_table_path)
 	#print headers
@@ -43,9 +42,8 @@ def test_reading_table():
 	for i in range(len(rows)):
 		if rows[i][0] == '':
 			print i
-			#print row
-
-
+			print row
+			
 def test_get_Labels():
 	headers, rows = read_file(imdb_table_path)
 	print get_labels(rows)
@@ -97,7 +95,6 @@ def testing_program_structure():
 	S = Statistics(D_testing, posible_labels)
 	print S.get_statistics()
 
-	#print get_mode(training_data, testing_data)
 	
 #test_reading_table()
 #test_get_Labels()
@@ -106,9 +103,7 @@ def testing_program_structure():
 #test_get_duration()
 #test_director_facebook_likes()
 #test_num_voted_users()
-
 #print normalize([1,2,4])
-
 #get_movie_titles()
 #testing_prediction()
 #testing_feature_extractor()
