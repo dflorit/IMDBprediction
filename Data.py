@@ -50,8 +50,7 @@ class Data:
 	
 	def get_predictions(self):
 		return self.predictions
-		
-	
+			
 	#feature names = [feature_1_name_str, feature_2_name_str, ...]	
 	def set_feature_names(self, feature_names):
 		self.feature_names = feature_names
@@ -92,8 +91,7 @@ class Statistics:
 		
 		for i in range(self.length):
 			self.confusion_matrix[(self.labels[i], self.predictions[i])] += 1.0
-		
-	
+			
 	def get_metrics(self):
 		
 		accuracy = 0
@@ -128,13 +126,11 @@ class Statistics:
 		self.averagePrecision = 1.0*sum(precision) / self.length
 		self.averageSensitivity = 1.0*sum(sensitivity) / self.length
 		self.averageSpecificity = 1.0*sum(specificity) / self.length
-		
-	
+			
 	def get_statistics(self):
 		return {'Accuracy': self.accuracy, 'Average Precision': self.averagePrecision, 'Average Sensitivity': self.averageSensitivity, \
 		'Average Specificity': self.averageSpecificity}
 
-	
 # ---------------------------Useful functions related to Data ---------------------------
 
 # Split Data instance into data_training and data_testing, given a percentage for training
