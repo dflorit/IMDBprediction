@@ -75,13 +75,21 @@ def generate_plots():
 	facebook_likes_name, facebook_likes_vector = get_cast_total_facebook_likes(rows)
 	budget_name, budget_vector = get_budget(rows)
 	
-	
-	#plot2D(colors_vector, imdb_score_vector, colors_name, imdb_score)
-	#plot2D(critics_reviews_vector, imdb_score_vector, critics_reviews_name, imdb_score)
-	#plot2D(facebook_likes_vector, imdb_score_vector, facebook_likes_name, imdb_score)
-	#plot2D(budget_vector, imdb_score_vector, budget_name, imdb_score)
-	#plot_points(facebook_likes_vector, budget_vector, imdb_score_vector, facebook_likes_name, budget_name)
+	duration_name, duration_vector = get_duration(rows)
+	movie_facebook_name, movie_facebook_vector = get_movie_facebook_likes(rows)
+	director_facebook_name, director_facebook_vector = get_director_facebook_likes(rows)
+	year_name, year_vector = get_title_year(rows)
+	plot2D(colors_vector, imdb_score_vector, colors_name, imdb_score)
+	plot2D(critics_reviews_vector, imdb_score_vector, critics_reviews_name, imdb_score)
+	plot2D(facebook_likes_vector, imdb_score_vector, facebook_likes_name, imdb_score)
+	plot2D(budget_vector, imdb_score_vector, budget_name, imdb_score)
+	plot_points(facebook_likes_vector, budget_vector, imdb_score_vector, facebook_likes_name, budget_name)
 	plot_points(facebook_likes_vector, critics_reviews_vector, imdb_score_vector, facebook_likes_name, critics_reviews_name)
+	plot_points(duration_vector, movie_facebook_vector, imdb_score_vector, duration_name, movie_facebook_name)
+	plot_points(movie_facebook_vector, director_facebook_vector, imdb_score_vector, movie_facebook_name, director_facebook_name)
+	plot_points(budget_vector, year_vector, imdb_score_vector, budget_name, year_name)
+	plot_points(critics_reviews_vector, movie_facebook_vector, imdb_score_vector, critics_reviews_name, movie_facebook_name)
+	
 		 	
 
 def test_get_directors():
@@ -127,4 +135,5 @@ def test_key_words():
 #test_get_actors_vectors()
 #test_get_vectors()
 #['Action', 'Adventure', 'Fantasy', 'Sci-Fi', 'Thriller', 'Documentary', 'Romance', 'Drama', 'History', 'Family', 'Animation', 'Comedy', 'Sport', 'Crime', 'Horror', 'Mystery', 'War', 'Musical', 'Western', 'Biography', 'Music', 'Game-Show', 'Reality-TV', 'News', 'Short', 'Film-Noir']
-test_key_words()
+#test_key_words()
+generate_plots()
