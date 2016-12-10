@@ -19,7 +19,6 @@ class Data:
 	def get_feature_vectors(self):
 		return self.feature_vectors
 	
-	
 	#labels = [l1,l2,...,ln]
 	def set_labels(self, labels):
 		self.length = len(labels)
@@ -190,40 +189,3 @@ def split_data(data, percentage_training):
 	
 
 	return data_training, data_testing
-
-def split_data_by_labels(data):
-	length_data = data.get_length()
-	feature_names = data.get_feature_names()
-	data_with_labels = Data()
-	data_without_labels = Data()
-	
-	if length_data == 0:
-		return data_with_labels, data_without_labels
-	
-	
-	#getting variables
-	labels = data.get_labels()
-	numeric_labels = data.get_numeric_labels()
-	
-	labels_with = []
-	numeric_labels_with = []
-	
-	labels_without = []
-	numeric_labels_without = []
-	
-	for i in range(len(labels)):
-		if labels[i] == None:
-			labels_without.append(labels[i])
-			numeric_labels_without.append(numeric_labels[i])
-		else:
-			labels_with.append(labels[i])
-			numeric_labels_with.append(numeric_labels[i])
-	
-	data_with_labels.set_labels(labels_with)
-	data_with_labels.set_numeric_labels(numeric_labels_with)
-	
-	
-	data_without_labels.set_labels(labels_without)
-	data_without_labels.set_numeric_labels(numeric_labels_without)
-	
-	return data_with_labels, data_without_labels 

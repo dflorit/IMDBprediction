@@ -382,7 +382,4 @@ def get_mode(training_data, testing_data):
 		predictions.append(find_mode([predictions_nn[i], predictions_svm[i], predictions_rf[i]]))
 		#predictions.append(find_mode([predictions_lr[i], predictions_nn[i], predictions_svm[i], predictions_rf[i]]))
 	return predictions
-	
-		
-		
-		
+

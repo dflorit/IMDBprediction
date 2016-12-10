@@ -55,7 +55,6 @@ feature_name_to_number = {color:0, director_name:1, num_critic_for_reviews:2, du
 						title_year:23, actor_2_facebook_likes:24, imdb_score:25, aspect_ratio:26, 
 						movie_facebook_likes:27}
 
-
 #posible labels
 posible_labels = [x for x in range(1,11)]
 
@@ -71,7 +70,6 @@ def normalize(l):
 	m = 1.0*max(l)
 	return list(array(l)/m)
 	
-
 #precondition: The 2 vectors have the same dimensions
 #This function calculates the dot product of vectors v1 and v2. The same index on v1 and
 #v2 represents the same dimension
@@ -106,14 +104,12 @@ def norm(v):
 	norm = sqrt(sum(v**2))
 	return norm
 
-
 #applies the sigmoid function to either a constant of a numpy array
 def sigmoid_function(x, theta):
 	#print x
 	#print theta
 	return 1.0/(1+e**(-1.0*sum(theta*x)))
 
-'''
 def dJ(xs, ys, h, j, thetas):
 	der = 0.0
 	m = 1.0*len(xs)
@@ -127,8 +123,7 @@ def dJ(xs, ys, h, j, thetas):
 
 	#print "Derivative = " + str(der)
 	return der/m
-	
-	
+		
 def gradient_descent(xs, ys, h, alpha=0.01, iterations=10000):
 	thetas = array([0]*len(xs[0]))
 	
@@ -139,7 +134,6 @@ def gradient_descent(xs, ys, h, alpha=0.01, iterations=10000):
 			print thetas[j]
 	
 	return thetas
-'''	
 
 def derivative_J(xs, ys, thetas, j):
 	cost = 0.0
@@ -148,7 +142,6 @@ def derivative_J(xs, ys, thetas, j):
 		cost += xs[i][j] * (sigmoid_function(xs[i], thetas) - ys[i])
 	
 	return cost/(1.0 * len(xs))
-
 
 def gradient_descent(xs, ys, h, alpha, iterations, lamda):
 	thetas = array([1.0]*len(xs[0]))
@@ -191,7 +184,6 @@ def plot_points(xs, ys, labels, labelX, labelY, filename=None):
 	else:
 		plt.savefig(filename+'png')
 
-
 def plot2D(xs, ys, labelX, labelY):
 	plt.plot(xs, ys, 'ro')
 	plt.xlabel(labelX)
@@ -229,16 +221,12 @@ def read_excel_table(table_path):
 	#data.set_feature_names(array(feature_names))
 	
 	return (headers, rows)
-	
-	
-	
+		
 def read_file(filename):
 		f = open(filename, 'r')
 		file_data = []
 		
-		
 		for line in f:
-			#row_dict = {}
 			row = []
 			splited = line.split(',')
 			if len(splited) > 28:
@@ -255,11 +243,8 @@ def read_file(filename):
 					val = splited[i + offset]
 					if i == (len(feature_list) - 1):
 						val = val.split('\r')[0]
-			
-				#row_dict[self.feature_list[i]] = val
 				row.append(val)
 		
-			#self.file_data.append(row_dict)
 			file_data.append(row)
 		headers = file_data.pop(0)
 		return headers, file_data
@@ -284,7 +269,6 @@ def get_movie_title(rows):
 		ids.append(row[feature_name_to_number[movie_title]])
 	
 	return ids
-
 	
 def get_int_column(rows, column_name):
 	output = []
@@ -365,7 +349,6 @@ def flip_dictionary(d):
 		fliped_d[d[key]] = key
 	
 	return fliped_d
-	#print fliped_directors
 
 def get_directors_vector(rows):
 	director_dict = get_direcrors_dictionary(rows)
@@ -400,8 +383,7 @@ def get_actors_dictionary(rows):
 				actors[actor] = pos
 				pos+=1
 	return actors	
-		
-		
+			
 def get_actors_vector(rows):
 	actors_to_positions = get_actors_dictionary(rows)
 	actors_vectors = []
@@ -444,23 +426,16 @@ def generate_dictionary(rows, key):
 def get_vectors(rows, key):
 	dictionary = generate_dictionary(rows, key)
 	
-	
 	vectors = []
-	
 	for row in rows:
 		vector = [0]*len(dictionary)
-		#all_actors = [row[feature_name_to_number[actor_1_name]], row[feature_name_to_number[actor_2_name]], row[feature_name_to_number[actor_3_name]]]
 		all_elements = row[feature_name_to_number[key]].split('|')
-		
 		
 		for element in all_elements:
 			if element != '':
 				vector[dictionary[element]] = 1
-		
 		vectors.append(vector)
 	
-	
-	#Modify
 	flipped_dict = flip_dictionary(dictionary)
 	names = ['']*len(dictionary)
 	for pos in flipped_dict:
@@ -468,7 +443,6 @@ def get_vectors(rows, key):
 			
 	return names, vectors
 	
-
 def get_genera_vectors(rows):
 	key = genres
 	return get_vectors(rows, key)
