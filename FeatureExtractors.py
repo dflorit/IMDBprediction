@@ -189,6 +189,7 @@ class Feature_Extractors:
 		D = Data()
 		
 		labels = get_imdb_score(rows)
+		print "Helloooo ", len(labels)
 		D.set_labels(labels)
 		
 		movie_titles = get_movie_title(rows)
@@ -211,17 +212,17 @@ class Feature_Extractors:
 		feature_names14, feature14 = get_genera_vectors(rows)
 		feature_names15, feature15 = get_key_word_vectors(rows)
 		
+		print "Should be the same as before: ", len(feature1)
 		feature_vectors = []
 		for i in range(len(feature1)):
 			feature_vector = [feature1[i], feature2[i], feature3[i], feature4[i], feature5[i], \
 			feature6[i], feature7[i], feature8[i], feature9[i], feature10[i], feature11[i]]
-			feature_vectors.append(feature_vector)
-			
 			feature_vector += feature12[i] + feature13[i] + feature14[i] + feature15[i]
 			feature_vectors.append(feature_vector)
-		
+			
 		feature_vectors = array(feature_vectors)
 		D.set_feature_vectors(feature_vectors)
+		print "Hiiiiiii ", len(feature_vectors)
 		
 		feature_names = [feature_names1, feature_names2, feature_names3, feature_names4, \
 		feature_names5, feature_names6, feature_names7, feature_names8, feature_names9, \
